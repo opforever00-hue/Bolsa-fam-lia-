@@ -509,7 +509,7 @@
             }
         }
 
-        // FUNÇÃO PARA CHAMAR A API (CLOUDFLARE FUNCTIONS)
+        // FUNÇÃO PARA GERAR O PIX (CHAMA A API DO CLOUDFLARE)
         async function processarPagamento() {
             const textoOriginal = btnPagar.innerHTML;
             btnPagar.innerHTML = "Gerando PIX...";
@@ -528,18 +528,27 @@
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
-                    // Substitui o conteúdo da tela de pagamento pelo QR Code
+                    // Renderiza a tela com QR Code e Copia e Cola
                     passoPagamento.innerHTML = `
                         <h2>Pague com PIX para Liberar</h2>
-                        <p>Escaneie o QR Code ou copie o código abaixo:</p>
-                        <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0;">
+                        <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
+                        
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="data:image/png;base64,${resultado.qr_code_base64}" alt="QR Code PIX" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        </div>
+
+                        <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
                             ${resultado.qr_code}
                         </div>
-                        <button onclick="navigator.clipboard.writeText('${resultado.qr_code}'); alert('Código copiado!')" style="background:var(--verde-bolsa); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-bottom:10px;">
-                            Copiar Código PIX
+                        
+                        <button onclick="navigator.clipboard.writeText('${resultado.qr_code}'); alert('Código copiado!')" style="background:var(--verde-bolsa); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-bottom:10px; box-shadow: 0 4px 10px rgba(22,136,33,0.3);">
+                            📋 Copiar Código PIX
                         </button>
-                        <p style="font-size:12px; color:#666;">Após o pagamento, a liberação é automática.</p>
-                        <button onclick="simularConfirmacao()" style="background:transparent; border:none; color:#999; text-decoration:underline; cursor:pointer;">Já Paguei (Simular)</button>
+                        
+                        <p style="font-size:12px; color:#666;">Após o pagamento, a confirmação é automática. A tela mudará sozinha.</p>
+                        
+                        <!-- Botão de verificação manual (opcional, para o usuário tentar forçar) -->
+                        <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
                     `;
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
@@ -553,9 +562,26 @@
             }
         }
 
-        function simularConfirmacao() {
-            passoPagamento.style.display = 'none';
-            passoVerificacao.style.display = 'block';
+        // FUNÇÃO PARA VERIFICAR O PAGAMENTO (CHAMA A API DE STATUS)
+        async function verificarPagamento(idTransacao) {
+            try {
+                const resposta = await fetch('/api/verificar-pagamento', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_transacao: idTransacao })
+                });
+
+                const resultado = await resposta.json();
+
+                if (resposta.ok && resultado.pago) {
+                    passoPagamento.style.display = 'none';
+                    passoVerificacao.style.display = 'block';
+                } else {
+                    alert("Pagamento ainda não identificado. Aguarde alguns instantes e tente novamente.");
+                }
+            } catch (error) {
+                alert("Erro ao verificar pagamento. Tente novamente.");
+            }
         }
 
         function abrirDownsell() {
@@ -579,7 +605,7 @@
             }
         }
 
-        // FUNÇÃO PARA CHAMAR A API (CLOUDFLARE FUNCTIONS) - DOWNSELL
+        // FUNÇÃO PARA GERAR O PIX DO DOWNSELL
         async function processarPagamentoDownsell() {
             const btnDownsell = document.querySelector('.btn-downsell');
             const textoOriginal = btnDownsell.innerHTML;
@@ -601,15 +627,23 @@
                 if (resposta.ok && resultado.sucesso) {
                     passoDownsell.innerHTML = `
                         <h2>Pague com PIX para Liberar</h2>
-                        <p>Escaneie o QR Code ou copie o código abaixo:</p>
-                        <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0;">
+                        <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
+                        
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="data:image/png;base64,${resultado.qr_code_base64}" alt="QR Code PIX" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        </div>
+
+                        <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
                             ${resultado.qr_code}
                         </div>
-                        <button onclick="navigator.clipboard.writeText('${resultado.qr_code}'); alert('Código copiado!')" style="background:var(--verde-bolsa); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-bottom:10px;">
-                            Copiar Código PIX
+                        
+                        <button onclick="navigator.clipboard.writeText('${resultado.qr_code}'); alert('Código copiado!')" style="background:var(--verde-bolsa); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-bottom:10px; box-shadow: 0 4px 10px rgba(22,136,33,0.3);">
+                            📋 Copiar Código PIX
                         </button>
-                        <p style="font-size:12px; color:#666;">Após o pagamento, a liberação é automática.</p>
-                        <button onclick="simularConfirmacao()" style="background:transparent; border:none; color:#999; text-decoration:underline; cursor:pointer;">Já Paguei (Simular)</button>
+                        
+                        <p style="font-size:12px; color:#666;">Após o pagamento, a confirmação é automática. A tela mudará sozinha.</p>
+                        
+                        <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
                     `;
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
