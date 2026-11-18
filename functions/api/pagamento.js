@@ -1,16 +1,12 @@
 // functions/api/pagamento.js
-// Esta é uma Cloudflare Pages Function. Ela roda no servidor e usa a variável de ambiente.
-
 export async function onRequestPost(context) {
-    // context.env contém as variáveis de ambiente configuradas na Cloudflare
     const { request, env } = context;
 
     try {
         const dados = await request.json();
-        const valorCentavos = dados.valor * 100; // Converte R$ 20,00 para 2000 centavos
+        const valorCentavos = dados.valor * 100;
         const cliente = dados.cliente || "Cliente";
 
-        // Pega o Token da PushinPay da Variável de Ambiente da Cloudflare
         const pushinpayToken = env.PUSHINPAY_TOKEN;
 
         if (!pushinpayToken) {
@@ -20,7 +16,6 @@ export async function onRequestPost(context) {
             });
         }
 
-        // Chamada Real para a API da PushinPay
         const responsePushin = await fetch('https://api.pushinpay.com.br/api/pix/cashIn', {
             method: 'POST',
             headers: {
@@ -43,7 +38,6 @@ export async function onRequestPost(context) {
             });
         }
 
-        // Retorna o QR Code para o front-end
         return new Response(JSON.stringify({
             sucesso: true,
             id_transacao: dataPushin.id,
