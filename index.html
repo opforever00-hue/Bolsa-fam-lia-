@@ -508,7 +508,7 @@
             }
         }
 
-        // FUNÇÃO CORRIGIDA PARA GERAR O PIX E MOSTRAR O QR CODE (R$ 20)
+        // FUNÇÃO PARA GERAR O PIX E MOSTRAR O QR CODE (R$ 20)
         async function processarPagamento() {
             const textoOriginal = btnPagar.innerHTML;
             btnPagar.innerHTML = "Gerando PIX...";
@@ -527,11 +527,11 @@
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
-                    // 1. Substitui o conteúdo da tela de pagamento
                     passoPagamento.innerHTML = `
                         <h2>Pague com PIX para Liberar</h2>
                         <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
                         
+                        <!-- Container vazio para o QR Code -->
                         <div id="qrcode-container" style="text-align: center; margin: 15px 0; display: flex; justify-content: center; min-height: 200px;"></div>
 
                         <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
@@ -547,30 +547,27 @@
                         <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
                     `;
 
-                    // 2. Aguarda um pequeno delay para garantir que o container está no DOM
+                    // Aguarda o DOM ser atualizado e gera o QR Code usando a API correta
                     setTimeout(() => {
                         const qrContainer = document.getElementById('qrcode-container');
-                        if (!qrContainer) {
-                            console.error("Container do QR Code não encontrado.");
-                            return;
-                        }
+                        if (!qrContainer) return;
 
-                        // 3. Gera o QR Code visualmente a partir do código PIX
+                        qrContainer.innerHTML = '';
+
                         if (typeof QRCode !== 'undefined') {
-                            QRCode.toCanvas(resultado.qr_code, { width: 200, margin: 1 }, function (error, canvas) {
-                                if (error) {
-                                    console.error("Erro ao gerar QR Code:", error);
-                                    qrContainer.innerHTML = '<p style="color:red; font-size:12px;">Não foi possível gerar a imagem. Use o código copia e cola abaixo.</p>';
-                                } else {
-                                    qrContainer.appendChild(canvas);
-                                }
+                            // Usa a biblioteca qrcode.min.js para gerar a imagem
+                            new QRCode(qrContainer, {
+                                text: resultado.qr_code,
+                                width: 200,
+                                height: 200,
+                                colorDark: "#000000",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
                             });
                         } else {
-                            // Fallback caso a biblioteca não tenha carregado
-                            console.error("Biblioteca QRCode não carregada.");
                             qrContainer.innerHTML = '<p style="color:red; font-size:12px;">Erro ao carregar o gerador de QR Code. Use o código copia e cola abaixo.</p>';
                         }
-                    }, 100); // Pequeno delay de 100ms
+                    }, 100);
 
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
@@ -584,7 +581,7 @@
             }
         }
 
-        // FUNÇÃO CORRIGIDA PARA GERAR O PIX DO DOWNSELL (R$ 10)
+        // FUNÇÃO PARA GERAR O PIX DO DOWNSELL (R$ 10)
         async function processarPagamentoDownsell() {
             const btnDownsell = document.querySelector('.btn-downsell');
             const textoOriginal = btnDownsell.innerHTML;
@@ -625,22 +622,20 @@
 
                     setTimeout(() => {
                         const qrContainer = document.getElementById('qrcode-container-downsell');
-                        if (!qrContainer) {
-                            console.error("Container do QR Code (downsell) não encontrado.");
-                            return;
-                        }
+                        if (!qrContainer) return;
+
+                        qrContainer.innerHTML = '';
 
                         if (typeof QRCode !== 'undefined') {
-                            QRCode.toCanvas(resultado.qr_code, { width: 200, margin: 1 }, function (error, canvas) {
-                                if (error) {
-                                    console.error("Erro ao gerar QR Code:", error);
-                                    qrContainer.innerHTML = '<p style="color:red; font-size:12px;">Não foi possível gerar a imagem. Use o código copia e cola abaixo.</p>';
-                                } else {
-                                    qrContainer.appendChild(canvas);
-                                }
+                            new QRCode(qrContainer, {
+                                text: resultado.qr_code,
+                                width: 200,
+                                height: 200,
+                                colorDark: "#000000",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
                             });
                         } else {
-                            console.error("Biblioteca QRCode não carregada.");
                             qrContainer.innerHTML = '<p style="color:red; font-size:12px;">Erro ao carregar o gerador de QR Code. Use o código copia e cola abaixo.</p>';
                         }
                     }, 100);
