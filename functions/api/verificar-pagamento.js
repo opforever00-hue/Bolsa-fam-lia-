@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
         }
 
         // Consulta o status da transação na PushinPay
-        // A documentação da PushinPay indica o endpoint /api/pix/status/{id} 
+        // ATENÇÃO: Verifique na documentação da PushinPay se o endpoint é este mesmo
         const responsePushin = await fetch(`https://api.pushinpay.com.br/api/pix/status/${idTransacao}`, {
             method: 'GET',
             headers: {
