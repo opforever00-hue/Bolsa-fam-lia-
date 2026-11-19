@@ -4,9 +4,10 @@ export async function onRequestPost(context) {
 
     try {
         const dados = await request.json();
-        const valorCentavos = dados.valor * 100;
+        const valorCentavos = dados.valor * 100; // Converte R$ 20,00 para 2000 centavos
         const cliente = dados.cliente || "Cliente";
 
+        // Pega o Token da PushinPay da Variável de Ambiente da Cloudflare
         const pushinpayToken = env.PUSHINPAY_TOKEN;
 
         if (!pushinpayToken) {
@@ -16,6 +17,7 @@ export async function onRequestPost(context) {
             });
         }
 
+        // Chamada Real para a API da PushinPay (Criar Cobrança PIX)
         const responsePushin = await fetch('https://api.pushinpay.com.br/api/pix/cashIn', {
             method: 'POST',
             headers: {
@@ -38,11 +40,13 @@ export async function onRequestPost(context) {
             });
         }
 
+        // Retorna o QR Code (copia e cola) e o ID da transação para o front-end
+        // O front-end vai usar a biblioteca QRCode.js para gerar a imagem visualmente
         return new Response(JSON.stringify({
             sucesso: true,
             id_transacao: dataPushin.id,
-            qr_code: dataPushin.qr_code,
-            qr_code_base64: dataPushin.qr_code_base64
+            qr_code: dataPushin.qr_code, // Código copia e cola
+            qr_code_base64: dataPushin.qr_code_base64 // Imagem (opcional, pode vir vazio)
         }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
