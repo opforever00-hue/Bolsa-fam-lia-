@@ -23,7 +23,6 @@ export async function onRequestPost(context) {
         }
 
         // Consulta o status da transação na PushinPay
-        // ATENÇÃO: Verifique na documentação da PushinPay se o endpoint é este mesmo
         const responsePushin = await fetch(`https://api.pushinpay.com.br/api/pix/status/${idTransacao}`, {
             method: 'GET',
             headers: {
@@ -41,7 +40,6 @@ export async function onRequestPost(context) {
             });
         }
 
-        // Verifica se o status é "paid" ou "completed" (ajuste conforme a documentação da PushinPay)
         const pago = dataPushin.status === 'paid' || dataPushin.status === 'completed';
 
         return new Response(JSON.stringify({
