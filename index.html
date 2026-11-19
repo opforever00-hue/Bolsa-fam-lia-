@@ -23,7 +23,6 @@
 
         body { background-color: var(--branco); color: var(--cinza-texto); padding-bottom: 80px; }
 
-        /* --- FAIXA DE DESTAQUE NO TOPO --- */
         .faixa-destaque-topo {
             background-color: var(--azul-escuro);
             color: var(--branco);
@@ -84,7 +83,6 @@
         @keyframes pulsarTexto { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         @keyframes pulsarBotao { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(22, 136, 33, 0.6); } 50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(22, 136, 33, 1); } 100% { transform: scale(1); box-shadow: 0 0 10px rgba(22, 136, 33, 0.6); } }
 
-        /* HEADER */
         header { border-bottom: 1px solid #ddd; padding: 10px 20px; position: sticky; top: 140px; background: var(--branco); z-index: 100; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .logo-gov { font-size: 28px; font-weight: 900; color: var(--azul-gov); letter-spacing: -1px; }
@@ -152,7 +150,6 @@
 
         .btn-acessibilidade { position: fixed; bottom: 20px; right: 20px; background: #0055CC; color: white; width: 50px; height: 50px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000; }
 
-        /* MODAL */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--branco); border-radius: 15px; padding: 30px 20px; max-width: 450px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 3px solid var(--azul-gov); max-height: 90vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; font-weight: bold; color: #999; cursor: pointer; background: none; border: none; }
@@ -509,7 +506,7 @@
             }
         }
 
-        // FUNÇÃO PARA GERAR O PIX (CHAMA A API DO CLOUDFLARE)
+        // GERAR O PIX (CHAMA A API DO CLOUDFLARE)
         async function processarPagamento() {
             const textoOriginal = btnPagar.innerHTML;
             btnPagar.innerHTML = "Gerando PIX...";
@@ -562,7 +559,7 @@
             }
         }
 
-        // FUNÇÃO PARA VERIFICAR O PAGAMENTO (CHAMA A API DE STATUS)
+        // VERIFICAR PAGAMENTO (CONSULTA A API DE STATUS)
         async function verificarPagamento(idTransacao) {
             try {
                 const resposta = await fetch('/api/verificar-pagamento', {
@@ -605,7 +602,7 @@
             }
         }
 
-        // FUNÇÃO PARA GERAR O PIX DO DOWNSELL
+        // GERAR O PIX DO DOWNSELL
         async function processarPagamentoDownsell() {
             const btnDownsell = document.querySelector('.btn-downsell');
             const textoOriginal = btnDownsell.innerHTML;
