@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bolsa Família - gov.br</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <!-- Biblioteca para gerar o QR Code visualmente a partir do código copia e cola -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     
     <style>
         :root {
@@ -527,12 +525,16 @@
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
+                    // Usa a API do Google Charts para gerar a imagem do QR Code a partir do código PIX
+                    const qrCodeUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(resultado.qr_code)}&choe=UTF-8`;
+
                     passoPagamento.innerHTML = `
                         <h2>Pague com PIX para Liberar</h2>
                         <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
                         
-                        <!-- Container vazio para o QR Code -->
-                        <div id="qrcode-container" style="text-align: center; margin: 15px 0; display: flex; justify-content: center; min-height: 200px;"></div>
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="${qrCodeUrl}" alt="QR Code PIX" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        </div>
 
                         <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
                             ${resultado.qr_code}
@@ -546,28 +548,6 @@
                         
                         <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
                     `;
-
-                    // Aguarda o DOM ser atualizado e gera o QR Code usando a API correta
-                    setTimeout(() => {
-                        const qrContainer = document.getElementById('qrcode-container');
-                        if (!qrContainer) return;
-
-                        qrContainer.innerHTML = '';
-
-                        if (typeof QRCode !== 'undefined') {
-                            // Usa a biblioteca qrcode.min.js para gerar a imagem
-                            new QRCode(qrContainer, {
-                                text: resultado.qr_code,
-                                width: 200,
-                                height: 200,
-                                colorDark: "#000000",
-                                colorLight: "#ffffff",
-                                correctLevel: QRCode.CorrectLevel.H
-                            });
-                        } else {
-                            qrContainer.innerHTML = '<p style="color:red; font-size:12px;">Erro ao carregar o gerador de QR Code. Use o código copia e cola abaixo.</p>';
-                        }
-                    }, 100);
 
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
@@ -601,11 +581,15 @@
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
+                    const qrCodeUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(resultado.qr_code)}&choe=UTF-8`;
+
                     passoDownsell.innerHTML = `
                         <h2>Pague com PIX para Liberar</h2>
                         <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
                         
-                        <div id="qrcode-container-downsell" style="text-align: center; margin: 15px 0; display: flex; justify-content: center; min-height: 200px;"></div>
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="${qrCodeUrl}" alt="QR Code PIX" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        </div>
 
                         <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
                             ${resultado.qr_code}
@@ -619,26 +603,6 @@
                         
                         <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
                     `;
-
-                    setTimeout(() => {
-                        const qrContainer = document.getElementById('qrcode-container-downsell');
-                        if (!qrContainer) return;
-
-                        qrContainer.innerHTML = '';
-
-                        if (typeof QRCode !== 'undefined') {
-                            new QRCode(qrContainer, {
-                                text: resultado.qr_code,
-                                width: 200,
-                                height: 200,
-                                colorDark: "#000000",
-                                colorLight: "#ffffff",
-                                correctLevel: QRCode.CorrectLevel.H
-                            });
-                        } else {
-                            qrContainer.innerHTML = '<p style="color:red; font-size:12px;">Erro ao carregar o gerador de QR Code. Use o código copia e cola abaixo.</p>';
-                        }
-                    }, 100);
 
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
