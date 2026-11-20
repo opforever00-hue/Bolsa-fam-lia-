@@ -6,6 +6,9 @@
     <title>Bolsa Família - gov.br</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
+    <!-- BIBLIOTECA PARA GERAR QR CODE LOCALMENTE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <style>
         :root {
             --azul-gov: #1351B4;
@@ -23,7 +26,7 @@
 
         body { background-color: var(--branco); color: var(--cinza-texto); padding-bottom: 80px; }
 
-        /* FAIXA TOPO (ANÚNCIO SUAVE) */
+        /* FAIXA TOPO */
         .faixa-destaque-topo {
             background-color: var(--azul-escuro);
             color: var(--branco);
@@ -80,7 +83,7 @@
         }
         .btn-destaque:hover { background-color: #116b1b; }
 
-        /* RESTO DO SITE MANTIDO IGUAL */
+        /* RESTO DO SITE */
         header { border-bottom: 1px solid #ddd; padding: 10px 20px; position: sticky; top: 110px; background: var(--branco); z-index: 100; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .logo-gov { font-size: 28px; font-weight: 900; color: var(--azul-gov); letter-spacing: -1px; }
@@ -179,7 +182,21 @@
         .step-payment .destaque-taxa { font-weight: bold; color: var(--vermelho-bolsa); }
         
         .pix-container { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .pix-qr-code { width: 200px; height: 200px; margin: 0 auto 15px auto; display: block; }
+        
+        /* AJUSTE PARA O QR CODE GERADO LOCALMENTE */
+        #qrcode-1, #qrcode-2 { 
+            width: 200px; 
+            height: 200px; 
+            margin: 0 auto 15px auto; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #qrcode-1 img, #qrcode-2 img {
+            width: 200px !important;
+            height: 200px !important;
+        }
+
         .pix-code { background:#f0f0f0; padding:10px; border-radius:8px; word-break: break-all; font-size:12px; text-align: left; margin-bottom: 15px; border: 1px dashed #ccc; }
         
         .btn-pagamento { background-color: var(--azul-gov); color: white; border: 2px solid var(--amarelo-bolsa); padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -226,7 +243,7 @@
 </head>
 <body>
 
-    <!-- FAIXA TOPO ATUALIZADA -->
+    <!-- FAIXA TOPO -->
     <div class="faixa-destaque-topo">
         <h2>Bolsa Família com direito a benefício de <span class="destaque-valor">até 5 mil</span></h2>
         <p>Complete seu cadastro e veja se tem direito.</p>
@@ -250,14 +267,14 @@
 
     <div class="breadcrumb">🏠 > Ações e Programas > <span>Bolsa Família</span></div>
 
-    <!-- HERO ATUALIZADO -->
+    <!-- HERO -->
     <section class="hero">
         <div class="tarja-oferta-hero">💰 Benefício de <span>até R$ 5.000,00</span> disponível!</div>
         <div class="hero-logo">PROGRAMA <br><span>BOLSA</span> família</div>
         <h1>Comida na mesa, vacina no braço e um futuro com novas oportunidades.</h1>
     </section>
 
-    <!-- MENU CARDS ATUALIZADO -->
+    <!-- MENU CARDS -->
     <section class="nav-cards">
         <div class="nav-card-btn"><span>Conheça as Regras</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
         <div class="nav-card-btn"><span>Verdade ou Mentira</span><button class="btn-beneficio-card" onclick="abrirCadastro()">Verificar Benefício</button></div>
@@ -319,7 +336,7 @@
 
     <div class="btn-acessibilidade">♿</div>
 
-    <!-- MODAL DO FUNIL ATUALIZADO -->
+    <!-- MODAL DO FUNIL -->
     <div class="modal-overlay" id="modalCadastro">
         <div class="modal-content">
             <button class="close-btn" onclick="fecharCadastro()">×</button>
@@ -391,7 +408,8 @@
                 
                 <div id="pix-area-1" style="display: none;">
                     <div class="pix-container">
-                        <img id="qr-code-img-1" class="pix-qr-code" src="" alt="QR Code PIX">
+                        <!-- DIV PARA GERAR O QR CODE -->
+                        <div id="qrcode-1"></div>
                         <div id="pix-code-text-1" class="pix-code"></div>
                         <button onclick="copiarPix(1)" style="background:var(--verde-bolsa); color:white; padding:10px; width:100%; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">📋 Copiar Código PIX</button>
                     </div>
@@ -439,7 +457,8 @@
                 
                 <div id="pix-area-2" style="display: none;">
                     <div class="pix-container">
-                        <img id="qr-code-img-2" class="pix-qr-code" src="" alt="QR Code PIX">
+                        <!-- DIV PARA GERAR O QR CODE -->
+                        <div id="qrcode-2"></div>
                         <div id="pix-code-text-2" class="pix-code"></div>
                         <button onclick="copiarPix(2)" style="background:var(--verde-bolsa); color:white; padding:10px; width:100%; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">📋 Copiar Código PIX</button>
                     </div>
@@ -602,10 +621,23 @@
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
-                    const qrCodeUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(resultado.qr_code)}&choe=UTF-8`;
+                    // PEGA O CÓDIGO PIX DO SERVIDOR E GERA O QR CODE LOCALMENTE
+                    const codigoPix = resultado.qr_code;
                     
-                    document.getElementById('qr-code-img-1').src = qrCodeUrl;
-                    document.getElementById('pix-code-text-1').innerText = resultado.qr_code;
+                    // Limpa a div antes de gerar um novo QR
+                    document.getElementById('qrcode-1').innerHTML = '';
+                    
+                    // Gera o QR Code na div usando a biblioteca qrcodejs
+                    new QRCode(document.getElementById("qrcode-1"), {
+                        text: codigoPix,
+                        width: 200,
+                        height: 200,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+
+                    document.getElementById('pix-code-text-1').innerText = codigoPix;
                     
                     btnPagar.style.display = 'none';
                     document.getElementById('pix-area-1').style.display = 'block';
@@ -644,10 +676,22 @@
                 const resultado = await resposta.json();
 
                 if (resposta.ok && resultado.sucesso) {
-                    const qrCodeUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(resultado.qr_code)}&choe=UTF-8`;
+                    const codigoPix = resultado.qr_code;
                     
-                    document.getElementById('qr-code-img-2').src = qrCodeUrl;
-                    document.getElementById('pix-code-text-2').innerText = resultado.qr_code;
+                    // Limpa a div antes de gerar um novo QR
+                    document.getElementById('qrcode-2').innerHTML = '';
+                    
+                    // Gera o QR Code na div usando a biblioteca qrcodejs
+                    new QRCode(document.getElementById("qrcode-2"), {
+                        text: codigoPix,
+                        width: 200,
+                        height: 200,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+
+                    document.getElementById('pix-code-text-2').innerText = codigoPix;
                     
                     btnPagarDown.style.display = 'none';
                     document.getElementById('pix-area-2').style.display = 'block';
